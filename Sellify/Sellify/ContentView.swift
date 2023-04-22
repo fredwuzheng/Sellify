@@ -1,18 +1,24 @@
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
     @State private var showProfile = true
     @State private var showEditProfile = false
     @State private var showSetting = false
+    @State private var showLogin = false
 
-    
+//    init() {
+//        FirebaseApp.configure()
+//    }
     var body: some View {
         if showProfile {
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting)
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
         } else if showEditProfile {
-            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting)
+            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
         } else if showSetting{
-            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting)
+            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+        } else if showLogin {
+            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
         }
     }
 }
@@ -21,6 +27,7 @@ struct ProfileView: View {
     @Binding var showProfile: Bool
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
+    @Binding var showLogin: Bool
     
     var body: some View {
  
@@ -73,7 +80,10 @@ struct ProfileView: View {
                     showSetting = true
                     showProfile = false
                 })
-                ProfileButton(imageName: "person", title: "Sign In/Out")
+             ProfileButton(imageName: "person", title: "Sign In/Out", action: {
+                 showLogin = true
+                 showProfile = false
+             })
                 ProfileButton(imageName: "questionmark.circle", title: "Support")
 //            }
             
@@ -96,6 +106,7 @@ struct SettingsView: View {
     @Binding var showProfile: Bool
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
+    @Binding var showLogin: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -165,7 +176,7 @@ struct EditProfileView: View {
     @Binding var showProfile: Bool
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
-    
+    @Binding var showLogin: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Edit Profile")
@@ -212,4 +223,67 @@ struct EditProfileView: View {
         }
 
     }
+}
+
+
+
+struct loginView: View {
+
+    @Binding var showProfile: Bool
+    @Binding var showEditProfile: Bool
+    @Binding var showSetting: Bool
+    @Binding var showLogin: Bool
+    
+    @State var email  = ""
+    @State var password = ""
+    
+    //TODO: add a variable that tracks whether the user has successfully logged in or not
+    @State var loggedIn = false
+
+    
+    func login() {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                loggedIn = false
+                print(error?.localizedDescription ?? "")
+            } else {
+//                TODO: update the variable to track that the user has successfully logged in
+                loggedIn = true
+                print("success")
+            }
+        }
+    }
+
+    var body: some View {
+        //TODO: Implement an if-else to return a new view when a certain condition is met
+
+        if (loggedIn == false) {
+            Text("Log In To Your Account")
+            TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
+                TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
+                    
+                Button(action: { login() }){
+                         Text("Sign in")
+                }.buttonStyle(. bordered).tint(.mint).padding(50)
+        } else {
+            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+        }
+        
+        Button(action: {
+            showProfile = true
+            showLogin = false
+        }, label: {
+            Text("Back to profile page")
+                .font(.headline)
+                
+            
+
+            
+            })
+       
+
+
+ 
+        }
+
 }

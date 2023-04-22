@@ -34,6 +34,9 @@
 		7A4BD13029F3C14400281772 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD12F29F3C14400281772 /* FirebaseRemoteConfigSwift */; };
 		7A4BD13229F3C14400281772 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD13129F3C14400281772 /* FirebaseStorage */; };
 		7A4BD13429F3C14400281772 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD13329F3C14400281772 /* FirebaseStorageCombine-Community */; };
+		7A6CD6E929F3DB6B00D75D25 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info-2.plist */; };
+		7A6CD6EA29F3DB6B00D75D25 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info-2.plist */; };
+		7A6CD6EB29F3DB6C00D75D25 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info-2.plist */; };
 		B6F4820129F245A20088B229 /* SellifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F4820029F245A20088B229 /* SellifyApp.swift */; };
 		B6F4820329F245A20088B229 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F4820229F245A20088B229 /* ContentView.swift */; };
 		B6F4820529F245A40088B229 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F4820429F245A40088B229 /* Assets.xcassets */; };
@@ -61,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info-2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-2.plist"; sourceTree = "<group>"; };
 		B6F481FD29F245A20088B229 /* Sellify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sellify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F4820029F245A20088B229 /* SellifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellifyApp.swift; sourceTree = "<group>"; };
 		B6F4820229F245A20088B229 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				B6F4820029F245A20088B229 /* SellifyApp.swift */,
 				B6F4820229F245A20088B229 /* ContentView.swift */,
 				B6F4820429F245A40088B229 /* Assets.xcassets */,
+				7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info-2.plist */,
 				B6F4820629F245A40088B229 /* Preview Content */,
 			);
 			path = Sellify;
@@ -319,6 +324,7 @@
 			files = (
 				B6F4820829F245A40088B229 /* Preview Assets.xcassets in Resources */,
 				B6F4820529F245A40088B229 /* Assets.xcassets in Resources */,
+				7A6CD6E929F3DB6B00D75D25 /* GoogleService-Info-2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A6CD6EA29F3DB6B00D75D25 /* GoogleService-Info-2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A6CD6EB29F3DB6C00D75D25 /* GoogleService-Info-2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

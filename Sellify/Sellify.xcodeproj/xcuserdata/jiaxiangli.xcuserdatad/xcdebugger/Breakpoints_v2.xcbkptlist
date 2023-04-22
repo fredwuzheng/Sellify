@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "F0E896CE-0E04-4CB0-84BB-9C710C1E7D77"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sellify/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "ProfileView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C - 1b851276a586569c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sellify.ProfileView.showSetting.getter : Swift.Bool"
+                  moduleName = "Sellify"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiaxiangli/Desktop/cs198_final_project-main/Sellify/Sellify/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "119">
+               </Location>
+               <Location
+                  uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C - 457fa15d9d19ae88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sellify.ProfileView.showSetting.setter : Swift.Bool"
+                  moduleName = "Sellify"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiaxiangli/Desktop/cs198_final_project-main/Sellify/Sellify/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "123">
+               </Location>
+               <Location
+                  uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C - a9ebee47f45eac99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sellify.ProfileView.showSetting.modify : Swift.Bool"
+                  moduleName = "Sellify"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiaxiangli/Desktop/cs198_final_project-main/Sellify/Sellify/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C - 5409a2c45114f088"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sellify.ProfileView.showSetting.modify : Swift.Bool with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Sellify"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiaxiangli/Desktop/cs198_final_project-main/Sellify/Sellify/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  uuid = "F9602590-DFF5-46D1-96E7-7A0BD45AE42C - b141e39601958e40"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sellify.ProfileView.$showSetting.getter : SwiftUI.Binding&lt;Swift.Bool&gt;"
+                  moduleName = "Sellify"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiaxiangli/Desktop/cs198_final_project-main/Sellify/Sellify/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "147">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
