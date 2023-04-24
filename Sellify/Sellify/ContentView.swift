@@ -2,23 +2,25 @@ import SwiftUI
 import Firebase
 
 struct ContentView: View {
-    @State private var showProfile = true
+    @State private var showProfile = false
     @State private var showEditProfile = false
     @State private var showSetting = false
     @State private var showLogin = false
-
+    @State private var showHome = true
 //    init() {
 //        FirebaseApp.configure()
 //    }
     var body: some View {
         if showProfile {
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showEditProfile {
-            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showSetting{
-            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showLogin {
-            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+        } else if showHome {
+            HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         }
     }
 }
@@ -28,6 +30,7 @@ struct ProfileView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
+    @Binding var showHome: Bool
 
     var body: some View {
 
@@ -57,10 +60,6 @@ struct ProfileView: View {
 
 
         }
-//        Text("Software Engineer")
-//            .font(.subheadline)
-//            .foregroundColor(.gray)
-
 
 
          VStack( alignment: .leading, spacing: 20) {
@@ -107,6 +106,7 @@ struct SettingsView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
+    @Binding var showHome: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -177,6 +177,7 @@ struct EditProfileView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
+    @Binding var showHome: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Edit Profile")
@@ -188,21 +189,21 @@ struct EditProfileView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Name")
                     .font(.headline)
-                TextField("John Doe", text: .constant(""))
+                TextField("Fred", text: .constant(""))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("Email")
                     .font(.headline)
-                TextField("johndoe@example.com", text: .constant(""))
+                TextField("fred@gmail.com", text: .constant(""))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("Bio")
                     .font(.headline)
-                TextEditor(text: .constant("I'm a software engineer who loves SwiftUI!"))
+                TextEditor(text: .constant("Hello!"))
                     .frame(height: 100)
                     .border(Color.gray, width: 1)
             }
@@ -233,6 +234,7 @@ struct loginView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
+    @Binding var showHome: Bool
 
     @State var email  = ""
     @State var password = ""
@@ -263,12 +265,13 @@ struct loginView: View {
                          Text("Sign in")
                 }.buttonStyle(. bordered).tint(.mint).padding(50)
         } else {
-            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         }
 
         Button(action: {
-            showProfile = true
             showLogin = false
+            showProfile = true
+            
         }, label: {
             Text("Back to profile page")
                 .font(.headline)
@@ -287,9 +290,35 @@ struct loginView: View {
 
 
 
+struct HomePageView: View {
+    @Binding var showProfile: Bool
+    @Binding var showEditProfile: Bool
+    @Binding var showSetting: Bool
+    @Binding var showLogin: Bool
+    @Binding var showHome: Bool
+    var body: some View {
+        VStack {
+            Text("Welcome to Sellify")
+                .font(.largeTitle)
+                .foregroundColor(.blue)
+            
+            Button(action: {
+                showLogin = true
+                showHome = false
+            }, label: {
+                Text("Login")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            })
+        }
+    }
+}
 
 
-
+// Post
 
 struct Post: Identifiable {
     var id = UUID()
