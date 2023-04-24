@@ -12,6 +12,7 @@ struct SellifyApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            
         }
     }
 }

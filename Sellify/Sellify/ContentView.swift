@@ -28,15 +28,15 @@ struct ProfileView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
-    
+
     var body: some View {
- 
-        
+
+
         ZStack{
             Color.blue.frame(minWidth: 200, maxWidth: .infinity, maxHeight: 300)
             VStack(  spacing: 100) {
                 Spacer()
-                
+
                 VStack(spacing: 20){
                     HStack(spacing: 20){
                         Image("profile_picture")
@@ -50,19 +50,19 @@ struct ProfileView: View {
                             .font(.title)
                     }
                     Spacer()
-                        
+
                 }
-              
+
             }
- 
-            
+
+
         }
 //        Text("Software Engineer")
 //            .font(.subheadline)
 //            .foregroundColor(.gray)
- 
-    
-        
+
+
+
          VStack( alignment: .leading, spacing: 20) {
 //            VStack(alignment: .leading, spacing: 20) {
                 ProfileButton(imageName: "square.and.pencil", title: "Edit Profile", action: {
@@ -73,7 +73,7 @@ struct ProfileView: View {
                 ProfileButton(imageName: "clock", title: "Recently Viewed")
                 ProfileButton(imageName: "folder", title: "Collections")
 //            }
-            
+
 //            VStack(alignment: .leading, spacing: 20) {
                 ProfileButton(imageName: "message", title: "Chat")
                 ProfileButton(imageName: "gear", title: "Settings", action: {
@@ -86,9 +86,9 @@ struct ProfileView: View {
              })
                 ProfileButton(imageName: "questionmark.circle", title: "Support")
 //            }
-            
+
             Spacer()
-            
+
             HStack {
                 Spacer()
                 Text("Information")
@@ -107,29 +107,29 @@ struct SettingsView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Settings")
                 .font(.largeTitle)
                 .bold()
-            
+
             Divider()
-            
+
             Toggle(isOn: .constant(true), label: {
                 Text("Push Notifications")
                     .font(.headline)
             })
-            
+
             Divider()
-            
+
             Toggle(isOn: .constant(true), label: {
                 Text("Email Notifications")
                     .font(.headline)
             })
-            
+
             Spacer()
-            
+
             Button(action: {
                 showEditProfile = false
                 showProfile = true
@@ -150,13 +150,13 @@ struct ProfileButton: View {
     let imageName: String
     let title: String
     let action: (() -> Void)?
-    
+
     init(imageName: String, title: String, action: (() -> Void)? = nil) {
         self.imageName = imageName
         self.title = title
         self.action = action
     }
-    
+
     var body: some View {
         Button(action: {
             action?()
@@ -164,7 +164,7 @@ struct ProfileButton: View {
             HStack {
                 Image(systemName: imageName)
                     .font(.title)
-                
+
                 Text(title)
                     .font(.caption)
             }
@@ -182,23 +182,23 @@ struct EditProfileView: View {
             Text("Edit Profile")
                 .font(.largeTitle)
                 .bold()
-            
+
             Divider()
-            
+
             VStack(alignment: .leading, spacing: 10) {
                 Text("Name")
                     .font(.headline)
                 TextField("John Doe", text: .constant(""))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            
+
             VStack(alignment: .leading, spacing: 10) {
                 Text("Email")
                     .font(.headline)
                 TextField("johndoe@example.com", text: .constant(""))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            
+
             VStack(alignment: .leading, spacing: 10) {
                 Text("Bio")
                     .font(.headline)
@@ -206,9 +206,9 @@ struct EditProfileView: View {
                     .frame(height: 100)
                     .border(Color.gray, width: 1)
             }
-            
+
             Spacer()
-            
+
             Button(action: {
                 showProfile = true
                 showEditProfile = false
@@ -217,9 +217,9 @@ struct EditProfileView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                 .background(Color.blue)
-                
+
                 })
-                   
+
         }
 
     }
@@ -233,21 +233,19 @@ struct loginView: View {
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
-    
+
     @State var email  = ""
     @State var password = ""
-    
-    //TODO: add a variable that tracks whether the user has successfully logged in or not
+
     @State var loggedIn = false
 
-    
+
     func login() {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 loggedIn = false
                 print(error?.localizedDescription ?? "")
             } else {
-//                TODO: update the variable to track that the user has successfully logged in
                 loggedIn = true
                 print("success")
             }
@@ -255,35 +253,113 @@ struct loginView: View {
     }
 
     var body: some View {
-        //TODO: Implement an if-else to return a new view when a certain condition is met
 
         if (loggedIn == false) {
             Text("Log In To Your Account")
             TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
                 TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
-                    
+
                 Button(action: { login() }){
                          Text("Sign in")
                 }.buttonStyle(. bordered).tint(.mint).padding(50)
         } else {
             EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin)
         }
-        
+
         Button(action: {
             showProfile = true
             showLogin = false
         }, label: {
             Text("Back to profile page")
                 .font(.headline)
-                
-            
 
-            
+
+
+
             })
-       
 
 
- 
+
+
         }
 
+}
+
+
+
+
+
+
+
+struct Post: Identifiable {
+    var id = UUID()
+    var text: String
+}
+
+class PostsViewModel: ObservableObject {
+    @Published var posts: [Post] = []
+    
+    func addPost(text: String) {
+        let post = Post(text: text)
+        posts.append(post)
+    }
+}
+
+struct CreatePostView: View {
+    @State private var text: String = ""
+    @EnvironmentObject var viewModel: PostsViewModel
+    
+    var body: some View {
+        VStack {
+            TextField("Enter your post", text: $text)
+                .padding()
+            Button(action: {
+                // Post the text
+                self.post()
+            }, label: {
+                Text("Post")
+            })
+        }
+    }
+    
+    private func post() {
+        // Add the post to the view model
+        viewModel.addPost(text: text)
+        // Reset the view
+        text = ""
+    }
+}
+
+struct PostsView: View {
+    @EnvironmentObject var viewModel: PostsViewModel
+    
+    var body: some View {
+        NavigationView {
+            List(viewModel.posts) { post in
+                VStack(alignment: .leading) {
+                    Text(post.text)
+                        .padding()
+                }
+            }
+            .navigationTitle("Posts")
+        }
+    }
+}
+
+struct userPostView: View {
+    @StateObject private var viewModel = PostsViewModel()
+    
+    var body: some View {
+        TabView {
+            CreatePostView()
+                .tabItem {
+                    Label("Create Post", systemImage: "pencil.circle.fill")
+                }
+            PostsView()
+                .tabItem {
+                    Label("Posts", systemImage: "list.bullet")
+                }
+        }
+        .environmentObject(viewModel)
+    }
 }
