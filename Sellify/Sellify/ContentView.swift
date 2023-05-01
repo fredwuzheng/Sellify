@@ -500,34 +500,48 @@ struct loginView: View {
     }
 }
 
-
+extension Color {
+    static let lightblue = Color(red: 0.0, green: 0.5, blue: 1.0)
+}
 
 struct HomePageView: View {
 //    @Binding var showProfile: Bool
 //    @Binding var showEditProfile: Bool
 //    @Binding var showSetting: Bool
 //    @Binding var showLogin: Bool
-//    @Binding var showHome: Bool
+//    @Binding var showHome: Boo
     @Binding var currentView: ActiveView
     var body: some View {
-        VStack {
-            Text("Welcome to Sellify")
-                .font(.largeTitle)
-                .foregroundColor(.blue)
+        ZStack {
+            Color.lightblue.edgesIgnoringSafeArea(.all)
             
-            Button(action: {
-//                showLogin = true
-//                showHome = false
-                currentView = .login
-            }, label: {
-                Text("Login")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            })
+            VStack {
+                Spacer(minLength: 7)
+                Image("store").resizable().frame(width: 150, height: 150)
+                
+                Text("Sellify")
+                    .font(.custom("HelveticaNeue-Bold", size: 40))
+                    .foregroundColor(.black)
+                
+                
+                Button(action: {
+                    //                showLogin = true
+                    //                showHome = false
+                    currentView = .login
+                }, label: {
+                    Text("Begin")
+                        .font(.headline)
+                        .foregroundColor(Color.black)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                })
+                
+                Spacer(minLength: 5)
+            }
         }
+        
+
     }
 }
 
@@ -610,9 +624,7 @@ struct userPostView: View {
 
 struct ShoppingPostsView: View {
     var body: some View {
-        VStack {
-            Text("Shopping searh bar and buttons")
-        }
+        Shop()
     }
 }
 
