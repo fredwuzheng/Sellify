@@ -96,21 +96,37 @@ struct MainView: View {
     var body: some View {
         VStack {
             Spacer()
-           
-            // Show the selected view
-            switch selectedTab {
-            case 0:
-                HomePostView()
-            case 1:
-                CreatePostView()
-            case 2:
-                ShoppingPostsView()
-            case 3:
-                SupportView(currentView: $currentView)
-            case 4:
-                ProfileView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
-            default:
-                Text("No view available.")
+            if loggedIn {
+                // Show the selected view
+                switch selectedTab {
+                case 0:
+                    HomePostView()
+                case 1:
+                    CreatePostView()
+                case 2:
+                    ShoppingPostsView()
+                case 3:
+                    SupportView(currentView: $currentView)
+                case 4:
+                    ProfileView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+                default:
+                    Text("No view available.")
+                }
+            } else {
+                switch selectedTab {
+                case 0:
+                    HomePostView()
+                case 1:
+                    loginView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+                case 2:
+                    ShoppingPostsView()
+                case 3:
+                    SupportView(currentView: $currentView)
+                case 4:
+                    loginView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+                default:
+                    Text("No view available.")
+                }
             }
 
             Spacer()
@@ -200,108 +216,114 @@ struct MainView: View {
 }
 
 struct ProfileView: View {
-//    @Binding var showProfile: Bool
-//    @Binding var showEditProfile: Bool
-//    @Binding var showSetting: Bool
-//    @Binding var showLogin: Bool
-//    @Binding var showHome: Bool
-//    @Binding var showSupport: Bool
+    //    @Binding var showProfile: Bool
+    //    @Binding var showEditProfile: Bool
+    //    @Binding var showSetting: Bool
+    //    @Binding var showLogin: Bool
+    //    @Binding var showHome: Bool
+    //    @Binding var showSupport: Bool
     @Binding var currentView: ActiveView
     @Binding var loggedIn: Bool
     @Binding var fromProfile: Bool
-
-
-
+    
+    
+    
+    
     var body: some View {
-        
-        
-        ZStack{
-            Color.blue.frame(minWidth: 200, maxWidth: .infinity, maxHeight: 300)
-            VStack(  spacing: 100) {
-                Spacer()
-                
-                VStack(spacing: 20){
-                    HStack(spacing: 20){
-                        Image("profile_picture")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                        //                        .shadow(radius: 7)
-                        Text("Fred Wu Zheng")
-                            .font(.title)
-                    }
+    
+            ZStack{
+                Color.blue.frame(minWidth: 200, maxWidth: .infinity, maxHeight: 300)
+                VStack(  spacing: 100) {
                     Spacer()
+                    
+                    VStack(spacing: 20){
+                        HStack(spacing: 20){
+                            Image("profile_picture")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                            //                        .shadow(radius: 7)
+                            Text("Fred Wu Zheng")
+                                .font(.title)
+                        }
+                        Spacer()
+                    }
                 }
             }
-        }
-        
-        VStack( alignment: .leading, spacing: 20) {
-            //            VStack(alignment: .leading, spacing: 20) {
-            ProfileButton(imageName: "square.and.pencil", title: "Edit Profile", action: {
-//                showEditProfile = true
-//                showProfile = false
-                currentView = .editProfile
                 
-            })
-            ProfileButton(imageName: "square.grid.2x2", title: "My Posts")
-            ProfileButton(imageName: "clock", title: "Recently Viewed")
-            ProfileButton(imageName: "folder", title: "Collections")
-            //            }
+                VStack( alignment: .leading, spacing: 20) {
+                    //            VStack(alignment: .leading, spacing: 20) {
+                    ProfileButton(imageName: "square.and.pencil", title: "Edit Profile", action: {
+                        //                showEditProfile = true
+                        //                showProfile = false
+                        fromProfile = true
+                        loggedIn = true
+                        currentView = .editProfile
+                        
+                    })
+                    ProfileButton(imageName: "square.grid.2x2", title: "My Posts")
+                    ProfileButton(imageName: "clock", title: "Recently Viewed")
+                    ProfileButton(imageName: "folder", title: "Collections")
+                    //            }
+                    
+                    //            VStack(alignment: .leading, spacing: 20) {
+                    //                ProfileButton(imageName: "message", title: "Chat")
+                    ProfileButton(imageName: "gear", title: "Settings", action: {
+                        //                showEditProfile = false
+                        //                showSetting = true
+                        //                showLogin = false
+                        //                showHome = false
+                        //                showSupport = false
+                        //                showProfile = false
+                        fromProfile = true
+                        loggedIn = true
+                        currentView = .editSetting
+                        
+                    })
+                    ProfileButton(imageName: "person", title: "Sign In/Out", action: {
+                        //                showEditProfile = false
+                        //                showSetting = false
+                        //                showLogin = true
+                        //                showHome = false
+                        //                showSupport = false
+                        //                showProfile = false
+                        fromProfile = true
+                        loggedIn = false
+                        currentView = .login
+                        
+                    })
+                    //             ProfileButton(imageName: "questionmark.circle", title: "Support") {
+                    //                 showSupport = true
+                    //                 showEditProfile = false
+                    //                 showSetting = false
+                    //                 showLogin = false
+                    //                 showHome = false
+                    //                 showProfile = false
+                    //                 fromProfile = true
+                    //                          }
+                    //                ProfileButton(imageName: "questionmark.circle", title: "Support")
+                    //            }
+                    
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        Text("Information")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 10)
+                        Spacer()
+                    }
+                }
+                .padding()
             
-            //            VStack(alignment: .leading, spacing: 20) {
-            //                ProfileButton(imageName: "message", title: "Chat")
-            ProfileButton(imageName: "gear", title: "Settings", action: {
-//                showEditProfile = false
-//                showSetting = true
-//                showLogin = false
-//                showHome = false
-//                showSupport = false
-//                showProfile = false
-                currentView = .editSetting
-        
-            })
-            ProfileButton(imageName: "person", title: "Sign In/Out", action: {
-//                showEditProfile = false
-//                showSetting = false
-//                showLogin = true
-//                showHome = false
-//                showSupport = false
-//                showProfile = false
-                fromProfile = true
-                loggedIn = false
-                currentView = .login
-                
-            })
-            //             ProfileButton(imageName: "questionmark.circle", title: "Support") {
-            //                 showSupport = true
-            //                 showEditProfile = false
-            //                 showSetting = false
-            //                 showLogin = false
-            //                 showHome = false
-            //                 showProfile = false
-            //                 fromProfile = true
-            //                          }
-            //                ProfileButton(imageName: "questionmark.circle", title: "Support")
-            //            }
-        
-            
-            Spacer()
-            
-            HStack {
-                Spacer()
-                Text("Information")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .padding(.bottom, 10)
-                Spacer()
-            }
         }
-        .padding()
-    
     }
-}
+
+
 
 struct SettingsView: View {
 //    @Binding var showProfile: Bool
@@ -336,7 +358,7 @@ struct SettingsView: View {
             Button(action: {
 //                showEditProfile = false
 //                showProfile = true
-                currentView = .profile
+                currentView = .main
             }, label: {
                 Text("Back to Profile")
                     .font(.headline)
@@ -419,7 +441,7 @@ struct EditProfileView: View {
             Button(action: {
 //                showProfile = true
 //                showEditProfile = false
-                currentView = .profile
+                currentView = .main
             }, label: {
                 Text("Save Changes")
                     .font(.headline)
@@ -487,10 +509,10 @@ struct loginView: View {
 //                showLogin = false
 //                showProfile = true
                 fromProfile = false
-                currentView = .profile
+                currentView = .main
                 
             }, label: {
-                Text("Back to profile page")
+                Text("Continue without an account")
                     .font(.headline)
                 
             })
