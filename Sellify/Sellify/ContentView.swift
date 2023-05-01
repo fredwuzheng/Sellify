@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var showLogin = false
     @State private var showHome = true
     @State private var showSupport = false
+    @State private var showCreateAcc = false
 //    init() {
 //        FirebaseApp.configure()
 //    }
@@ -19,11 +20,12 @@ struct ContentView: View {
         } else if showSetting{
             SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showLogin {
-            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport)
+            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, showCreateAcc: $showCreateAcc)
         } else if showHome {
             HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
-        }
-        else if showSupport {
+        } else if showCreateAcc{
+            CreateAccView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showCreateAcc: $showCreateAcc)
+        } else if showSupport {
             SupportView(showProfile: $showProfile, showSupport: $showSupport)
         }
     }
@@ -260,6 +262,7 @@ struct loginView: View {
     @Binding var showLogin: Bool
     @Binding var showHome: Bool
     @Binding var showSupport: Bool
+    @Binding var showCreateAcc: Bool
     
     @State var email  = ""
     @State var password = ""
@@ -300,16 +303,19 @@ struct loginView: View {
         }, label: {
             Text("Back to profile page")
                 .font(.headline)
-
-
-
-
             })
-
-
-
-
+        
+        Button(action: {
+            showLogin = false
+            showCreateAcc = true
+        }, label: {
+            Text("Don't have an account yet?")
+                .font(.headline)
+            })
         }
+        
+
+
 
 }
 
@@ -340,6 +346,81 @@ struct HomePageView: View {
             })
         }
     }
+}
+
+struct CreateAccView: View {
+    @Binding var showProfile: Bool
+    @Binding var showEditProfile: Bool
+    @Binding var showSetting: Bool
+    @Binding var showLogin: Bool
+    @Binding var showHome: Bool
+    @Binding var showCreateAcc: Bool
+    @State private var showErrorAlert = false
+    @State private var errorAlertMessage = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var showSuccessAlert = false
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Create Account")
+                .font(.largeTitle)
+                .bold()
+
+            TextField("Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.emailAddress)
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            Button(action: createAccount, label: {
+                Text("Create Account")
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            })
+        }
+        .padding()
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Error"), message: Text(errorAlertMessage), dismissButton: .default(Text("OK")))
+            
+        }
+        .alert(isPresented: $showSuccessAlert) {
+                    Alert(title: Text("Success"), message: Text(successAlertMessage), dismissButton: .default(Text("OK")))
+                }
+        Button(action: {
+            showCreateAcc = false
+            showLogin = true
+            
+        }, label: {
+            Text("Back to login page")
+                .font(.headline)
+            })
+    }
+    
+    func createAccount() {
+        if password.isEmpty {
+            errorAlertMessage = "Password cannot be empty"
+            showErrorAlert = true
+            return
+        }
+
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                errorAlertMessage = error.localizedDescription
+                showErrorAlert = true
+                return
+            }  else {
+                successAlertMessage = "Account created successfully"
+                showSuccessAlert = true
+            }
+        }
+    }
+
+    
 }
 
 
