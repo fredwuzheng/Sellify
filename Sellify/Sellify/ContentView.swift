@@ -1,109 +1,225 @@
 import SwiftUI
 import Firebase
 
-struct ContentView: View {
-    @State private var showProfile = false
-    @State private var showEditProfile = false
-    @State private var showSetting = false
-    @State private var showLogin = false
-    @State private var showHome = true
-    @State private var showSupport = false
+struct Content: View {
+    @State private var currentView: ActiveView = .home
     @State private var loggedIn = false
     @State private var fromProfile = false
+//    @State private var showProfile = false
+//    @State private var showEditProfile = false
+//    @State private var showSetting = false
+//    @State private var showLogin = false
+//    @State private var showHome = true
+//    @State private var showSupport = false
+//    @State private var loggedIn = false
+    
+    var body: some View {
+        ContentView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+//        ContentView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile, loggedIn: $loggedIn)
+    }
+}
+
+enum ActiveView {
+    case home, profile, editProfile, editSetting, login, support, main
+}
+
+struct ContentView: View {
+    @Binding var currentView: ActiveView
+    @Binding var loggedIn: Bool
+    @Binding var fromProfile: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+//    @Binding var showSupport: Bool
+//    @Binding var fromProfile: Bool
+//    @Binding var loggedIn: Bool
 //    init() {
 //        FirebaseApp.configure()
 //    }
     var body: some View {
-        if showProfile {
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
-
-        } else if showEditProfile {
-            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
-        } else if showSetting{
-            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
-        } else if showLogin {
-            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, loggedIn : $loggedIn, fromProfile: $fromProfile)
-            if (loggedIn) {
-                MainView()
+        Group {
+            switch currentView {
+            case .home:
+                HomePageView(currentView: $currentView)
+            case .profile:
+                ProfileView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+            case .editProfile:
+                EditProfileView(currentView: $currentView)
+            case .editSetting:
+                SettingsView(currentView: $currentView)
+            case .login:
+                loginView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+            case .support:
+                SupportView(currentView: $currentView)
+            case .main:
+                MainView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
             }
-        } else if showHome {
-            HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         }
-        else if showSupport {
-            SupportView(showProfile: $showProfile, showSupport: $showSupport, fromProfile: $fromProfile)
-        }
+//        if showProfile {
+//            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile, loggedIn: $loggedIn)
+//
+//        } else if showEditProfile {
+//            EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+//        } else if showSetting{
+//            SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+//        } else if showHome {
+//            HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+//        } else if showLogin {
+//            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, loggedIn : $loggedIn, fromProfile: $fromProfile)
+//        } else if showSupport {
+//            SupportView(showProfile: $showProfile, showSupport: $showSupport)
+//        }
+//
+//        if (loggedIn && !fromProfile) {
+//            MainView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile, loggedIn: $loggedIn)
+//        } else if (loggedIn && fromProfile) {
+//            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile, loggedIn: $loggedIn)
+//        }
         
     }
 }
 
 struct MainView: View {
     @State private var selectedTab = 0
-    @State private var showProfile = false
-    @State private var showEditProfile = false
-    @State private var showSetting = false
-    @State private var showLogin = false
-    @State private var showHome = false
-    @State private var showSupport = false
-    @State private var fromProfile = false
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+//    @Binding var showSupport: Bool
+    @Binding var currentView: ActiveView
+    @Binding var loggedIn: Bool
+    @Binding var fromProfile: Bool
+    
     var body: some View {
-        TabView(selection: $selectedTab) {
+        VStack {
+            Spacer()
+           
+            // Show the selected view
+            switch selectedTab {
+            case 0:
+                HomePostView()
+            case 1:
+                CreatePostView()
+            case 2:
+                ShoppingPostsView()
+            case 3:
+                SupportView(currentView: $currentView)
+            case 4:
+                ProfileView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
+            default:
+                Text("No view available.")
+            }
+
+            Spacer()
             
-            HomePostView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
+          
+
+            // Custom tab bar
+            HStack {
+                Button(action: { selectedTab = 0 }) {
+                    VStack {
+                        Image(systemName: "house.fill").imageScale(.small)
+                        Text("Home").font(.system(size: 8))
+                    }
                 }
-                .tag(0)
-            
-            CreatePostView()
-                .tabItem {
-                Image(systemName: "plus.square.fill")
-                Text("Create Post")
+                Spacer(minLength: 8)
+                Button(action: { selectedTab = 1 }) {
+                    VStack {
+                        Image(systemName: "plus.square.fill").imageScale(.small)
+                        Text("Create Post").font(.system(size: 8))
+                    }
                 }
-                .tag(1)
-            
-            ShoppingPostsView()
-                .tabItem {
-                    Image(systemName: "cart.fill")
-                    Text("Shopping")
+                Spacer(minLength: 8)
+                Button(action: { selectedTab = 2 }) {
+                    VStack {
+                        Image(systemName: "cart.fill").imageScale(.small)
+                        Text("Shopping").font(.system(size: 8))
+                    }
                 }
-                .tag(2)
-            
-            SupportView(showProfile: $showProfile, showSupport: $showSupport, fromProfile: $fromProfile)
-                .tabItem {
-                    Image(systemName: "questionmark.circle.fill")
-                    Text("Support")
+                Spacer(minLength: 8)
+                Button(action: { selectedTab = 3 }) {
+                    VStack {
+                        Image(systemName: "questionmark.circle.fill").imageScale(.small)
+                        Text("Support").font(.system(size: 8))
+                    }
                 }
-                .tag(3)
-            
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile, showSetting: $showSetting, showLogin: $showLogin, showHome: $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
-                .tabItem {
-                    Image(systemName: "person.crop.circle.fill")
-                    Text("Profile")
+                Spacer(minLength: 8)
+                Button(action: { selectedTab = 4 }) {
+                    VStack {
+                        Image(systemName: "person.crop.circle.fill").imageScale(.small)
+                        Text("Profile").font(.system(size: 8))
+                    }
                 }
-                .tag(4)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color(.systemGray4))
         }
+        .edgesIgnoringSafeArea(.bottom)
+//        TabView(selection: $selectedTab) {
+//
+//            HomePostView()
+//                .tabItem {
+//                    Image(systemName: "house.fill")
+//                    Text("Home")
+//                }
+//                .tag(0)
+//
+//            CreatePostView()
+//                .tabItem {
+//                Image(systemName: "plus.square.fill")
+//                Text("Create Post")
+//                }
+//                .tag(1)
+//
+//            ShoppingPostsView()
+//                .tabItem {
+//                    Image(systemName: "cart.fill")
+//                    Text("Shopping")
+//                }
+//                .tag(2)
+//
+//            SupportView(showProfile: $showProfile, showSupport: $showSupport)
+//                .tabItem {
+//                    Image(systemName: "questionmark.circle.fill")
+//                    Text("Support")
+//                }
+//                .tag(3)
+//
+//            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile, showSetting: $showSetting, showLogin: $showLogin, showHome: $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
+//                .tabItem {
+//                    Image(systemName: "person.crop.circle.fill")
+//                    Text("Profile")
+//                }
+//                .tag(4)
+//        }
     }
 }
 
 struct ProfileView: View {
-    @Binding var showProfile: Bool
-    @Binding var showEditProfile: Bool
-    @Binding var showSetting: Bool
-    @Binding var showLogin: Bool
-    @Binding var showHome: Bool
-    @Binding var showSupport: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+//    @Binding var showSupport: Bool
+    @Binding var currentView: ActiveView
+    @Binding var loggedIn: Bool
     @Binding var fromProfile: Bool
 
 
+
     var body: some View {
-
-
+        
+        
         ZStack{
             Color.blue.frame(minWidth: 200, maxWidth: .infinity, maxHeight: 300)
             VStack(  spacing: 100) {
                 Spacer()
-
+                
                 VStack(spacing: 20){
                     HStack(spacing: 20){
                         Image("profile_picture")
@@ -112,64 +228,67 @@ struct ProfileView: View {
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.white, lineWidth: 4))
-    //                        .shadow(radius: 7)
-                         Text("Fred Wu Zheng")
+                        //                        .shadow(radius: 7)
+                        Text("Fred Wu Zheng")
                             .font(.title)
                     }
                     Spacer()
-
                 }
-
             }
-
-
         }
-
-
-         VStack( alignment: .leading, spacing: 20) {
-//            VStack(alignment: .leading, spacing: 20) {
-                ProfileButton(imageName: "square.and.pencil", title: "Edit Profile", action: {
-                    showEditProfile = true
-                    showProfile = false
-                })
-                ProfileButton(imageName: "square.grid.2x2", title: "My Posts")
-                ProfileButton(imageName: "clock", title: "Recently Viewed")
-                ProfileButton(imageName: "folder", title: "Collections")
-//            }
-
-//            VStack(alignment: .leading, spacing: 20) {
-//                ProfileButton(imageName: "message", title: "Chat")
-                ProfileButton(imageName: "gear", title: "Settings", action: {
-                     showEditProfile = false
-                     showSetting = true
-                     showLogin = false
-                     showHome = false
-                     showSupport = false
-                     showProfile = false
-                })
-             ProfileButton(imageName: "person", title: "Sign In/Out", action: {
-                 showEditProfile = false
-                 showSetting = false
-                 showLogin = true
-                 showHome = false
-                 showSupport = false
-                 showProfile = false
-                 fromProfile = true
-             })
-             ProfileButton(imageName: "questionmark.circle", title: "Support") {
-                 showSupport = true
-                 showEditProfile = false
-                 showSetting = false
-                 showLogin = false
-                 showHome = false
-                 showProfile = false
-                 fromProfile = true
-                          }
-//                ProfileButton(imageName: "questionmark.circle", title: "Support")
-//            }
-
+        
+        VStack( alignment: .leading, spacing: 20) {
+            //            VStack(alignment: .leading, spacing: 20) {
+            ProfileButton(imageName: "square.and.pencil", title: "Edit Profile", action: {
+//                showEditProfile = true
+//                showProfile = false
+                currentView = .editProfile
+                
+            })
+            ProfileButton(imageName: "square.grid.2x2", title: "My Posts")
+            ProfileButton(imageName: "clock", title: "Recently Viewed")
+            ProfileButton(imageName: "folder", title: "Collections")
+            //            }
+            
+            //            VStack(alignment: .leading, spacing: 20) {
+            //                ProfileButton(imageName: "message", title: "Chat")
+            ProfileButton(imageName: "gear", title: "Settings", action: {
+//                showEditProfile = false
+//                showSetting = true
+//                showLogin = false
+//                showHome = false
+//                showSupport = false
+//                showProfile = false
+                currentView = .editSetting
+        
+            })
+            ProfileButton(imageName: "person", title: "Sign In/Out", action: {
+//                showEditProfile = false
+//                showSetting = false
+//                showLogin = true
+//                showHome = false
+//                showSupport = false
+//                showProfile = false
+                fromProfile = true
+                loggedIn = false
+                currentView = .login
+                
+            })
+            //             ProfileButton(imageName: "questionmark.circle", title: "Support") {
+            //                 showSupport = true
+            //                 showEditProfile = false
+            //                 showSetting = false
+            //                 showLogin = false
+            //                 showHome = false
+            //                 showProfile = false
+            //                 fromProfile = true
+            //                          }
+            //                ProfileButton(imageName: "questionmark.circle", title: "Support")
+            //            }
+        
+            
             Spacer()
-
+            
             HStack {
                 Spacer()
                 Text("Information")
@@ -180,15 +299,17 @@ struct ProfileView: View {
             }
         }
         .padding()
+    
     }
 }
 
 struct SettingsView: View {
-    @Binding var showProfile: Bool
-    @Binding var showEditProfile: Bool
-    @Binding var showSetting: Bool
-    @Binding var showLogin: Bool
-    @Binding var showHome: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+    @Binding var currentView: ActiveView
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -213,13 +334,14 @@ struct SettingsView: View {
             Spacer()
 
             Button(action: {
-                showEditProfile = false
-                showProfile = true
+//                showEditProfile = false
+//                showProfile = true
+                currentView = .profile
             }, label: {
                 Text("Back to Profile")
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
+                    .padding(EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5))                    .background(Color.blue)
                     .cornerRadius(10)
                     .background(Color.blue)
                     .cornerRadius(10)
@@ -256,11 +378,12 @@ struct ProfileButton: View {
 }
 
 struct EditProfileView: View {
-    @Binding var showProfile: Bool
-    @Binding var showEditProfile: Bool
-    @Binding var showSetting: Bool
-    @Binding var showLogin: Bool
-    @Binding var showHome: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+    @Binding var currentView: ActiveView
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Edit Profile")
@@ -294,13 +417,14 @@ struct EditProfileView: View {
             Spacer()
 
             Button(action: {
-                showProfile = true
-                showEditProfile = false
+//                showProfile = true
+//                showEditProfile = false
+                currentView = .profile
             }, label: {
                 Text("Save Changes")
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
+                    .padding(EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5))                    .background(Color.blue)
                                         .cornerRadius(10)
 //                .background(Color.blue)
 
@@ -314,12 +438,13 @@ struct EditProfileView: View {
 
 
 struct loginView: View {
-    @Binding var showProfile: Bool
-    @Binding var showEditProfile: Bool
-    @Binding var showSetting: Bool
-    @Binding var showLogin: Bool
-    @Binding var showHome: Bool
-    @Binding var showSupport: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+//    @Binding var showSupport: Bool
+    @Binding var currentView: ActiveView
     @Binding var loggedIn: Bool
     @Binding var fromProfile: Bool
     
@@ -334,6 +459,9 @@ struct loginView: View {
             } else {
                 loggedIn = true
                 print("success")
+                DispatchQueue.main.async {
+                    currentView = .main
+                }
             }
         }
     }
@@ -356,9 +484,10 @@ struct loginView: View {
         if (fromProfile) {
             
             Button(action: {
-                showLogin = false
-                showProfile = true
+//                showLogin = false
+//                showProfile = true
                 fromProfile = false
+                currentView = .profile
                 
             }, label: {
                 Text("Back to profile page")
@@ -374,11 +503,12 @@ struct loginView: View {
 
 
 struct HomePageView: View {
-    @Binding var showProfile: Bool
-    @Binding var showEditProfile: Bool
-    @Binding var showSetting: Bool
-    @Binding var showLogin: Bool
-    @Binding var showHome: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showEditProfile: Bool
+//    @Binding var showSetting: Bool
+//    @Binding var showLogin: Bool
+//    @Binding var showHome: Bool
+    @Binding var currentView: ActiveView
     var body: some View {
         VStack {
             Text("Welcome to Sellify")
@@ -386,8 +516,9 @@ struct HomePageView: View {
                 .foregroundColor(.blue)
             
             Button(action: {
-                showLogin = true
-                showHome = false
+//                showLogin = true
+//                showHome = false
+                currentView = .login
             }, label: {
                 Text("Login")
                     .font(.headline)
@@ -437,7 +568,7 @@ struct CreatePostView: View {
     
     private func post() {
         // Add the post to the view model
-        viewModel.addPost(text: text)
+         viewModel.addPost(text: text)
         // Reset the view
         text = ""
     }
@@ -493,10 +624,11 @@ struct HomePostView: View {
 
 
 struct SupportView: View {
-    @Binding var showProfile: Bool
-    @Binding var showSupport: Bool
+//    @Binding var showProfile: Bool
+//    @Binding var showSupport: Bool
     @State private var showFAQ = false
-    @Binding var fromProfile: Bool
+    @Binding var currentView: ActiveView
+//    @Binding var fromProfile: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -547,19 +679,19 @@ struct SupportView: View {
             }
             Spacer(minLength: 10)
             
-            if (fromProfile) {
-                Button(action: {
-                    showProfile = true
-                    showSupport = false
-                    fromProfile = false
-                }, label: {
-                    Text("Back to Profile")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
-                        .cornerRadius(10)
-                })
-            }
+//            if (fromProfile) {
+//                Button(action: {
+//                    showProfile = true
+//                    showSupport = false
+//                    fromProfile = false
+//                }, label: {
+//                    Text("Back to Profile")
+//                        .font(.headline)
+//                        .foregroundColor(.white)
+//                        .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
+//                        .cornerRadius(10)
+//                })
+//            }
         }
         .padding()
         .sheet(isPresented: $showFAQ) {
@@ -613,9 +745,8 @@ struct FrequentlyAskedQuestionsView: View {
                     Text("Back")
                         .font(.headline)
                         .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                        .padding(EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5))                    .background(Color.blue)
+                                            .cornerRadius(10)
                 })
             }
             .padding()

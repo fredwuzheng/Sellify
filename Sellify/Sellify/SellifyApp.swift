@@ -12,9 +12,11 @@ import Firebase
 struct SellifyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    
     var body: some Scene {
+        
         WindowGroup {
-            ContentView()
+            Content()
             
         }
     }
