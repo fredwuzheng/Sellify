@@ -21,6 +21,8 @@ struct Posting: Identifiable {
     var id: UUID
     var description: String
     var image: String
+    var contacts: String
+    var cost: Int
 }
 
 struct PersonView: View{
@@ -47,6 +49,8 @@ struct PostingView: View {
             
             Image(newPost.image).resizable().scaledToFit()
             Text(newPost.description).multilineTextAlignment(.center)
+            Text("$ \(newPost.cost)").multilineTextAlignment(.center)
+            Text(newPost.contacts).multilineTextAlignment(.center)
 
             Spacer(minLength: 20)
         }
@@ -59,23 +63,23 @@ struct HomePosts: View {
     
         let newPost = [
             Posting(
-                id: UUID(), description: "Bag", image: "bag"),
+                id: UUID(), description: "Bag", image: "bag", contacts: "123-456-7890", cost: 50),
             Posting(
-                id: UUID(), description: "Das Leyboard MacTigr", image: "keyboard"),
+                id: UUID(), description: "Das Leyboard MacTigr", image: "keyboard", contacts: "734-574-1245", cost: 219),
             Posting(
-                id: UUID(), description: "Kids toy (never used!)", image: "kidstoy"),
+                id: UUID(), description: "Kids toy (never used!)", image: "kidstoy", contacts: "123-461-7420", cost: 30),
             Posting(
-                id: UUID(), description: "Office Chair", image: "chair"),
+                id: UUID(), description: "Office Chair", image: "chair", contacts: "321-456-4435", cost: 102),
             Posting(
-                id: UUID(), description: "Cooking pot", image: "pot"),
+                id: UUID(), description: "Cooking pot", image: "pot", contacts: "133-479-0042", cost: 25),
             Posting(
-                id: UUID(), description: "Color pencils", image: "pencilsets"),
+                id: UUID(), description: "Color pencils", image: "pencilsets", contacts: "754-456-1324", cost: 10),
             Posting(
-                id: UUID(), description: "Moon Lamp Moon Night Light", image: "mood bed light"),
+                id: UUID(), description: "Moon Lamp Moon Night Light", image: "mood bed light", contacts: "188-093-1296", cost: 42),
             Posting(
-                id: UUID(), description: "2 leg pet dog clothes", image: "dogclothes"),
+                id: UUID(), description: "2 leg pet dog clothes", image: "dogclothes", contacts: "143-486-7891", cost: 20),
             Posting(
-                id: UUID(), description: "8X10 black rug", image: "carpet")
+                id: UUID(), description: "8X10 black rug", image: "carpet", contacts: "103-457-7832", cost: 50)
         ]
         
         
