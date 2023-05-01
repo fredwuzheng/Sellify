@@ -2,26 +2,39 @@ import SwiftUI
 import Firebase
 
 struct ContentView: View {
+<<<<<<< HEAD
+    
+=======
+>>>>>>> refs/remotes/origin/master
     @State private var showProfile = false
     @State private var showEditProfile = false
     @State private var showSetting = false
     @State private var showLogin = false
     @State private var showHome = true
+<<<<<<< HEAD
     @State private var showSupport = false
     @State private var loggedIn = false
     @State private var fromProfile = false
+    
+    
+=======
+>>>>>>> refs/remotes/origin/master
 //    init() {
 //        FirebaseApp.configure()
 //    }
     var body: some View {
         if showProfile {
+<<<<<<< HEAD
             ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
-
+=======
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+>>>>>>> refs/remotes/origin/master
         } else if showEditProfile {
             EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showSetting{
             SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showLogin {
+<<<<<<< HEAD
             loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, loggedIn : $loggedIn, fromProfile: $fromProfile)
             if (loggedIn) {
                 MainView()
@@ -83,6 +96,12 @@ struct MainView: View {
                 }
                 .tag(4)
         }
+=======
+            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+        } else if showHome {
+            HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+        }
+>>>>>>> refs/remotes/origin/master
     }
 }
 
@@ -92,9 +111,11 @@ struct ProfileView: View {
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
     @Binding var showHome: Bool
+<<<<<<< HEAD
     @Binding var showSupport: Bool
     @Binding var fromProfile: Bool
-
+=======
+>>>>>>> refs/remotes/origin/master
 
     var body: some View {
 
@@ -138,6 +159,7 @@ struct ProfileView: View {
 //            }
 
 //            VStack(alignment: .leading, spacing: 20) {
+<<<<<<< HEAD
 //                ProfileButton(imageName: "message", title: "Chat")
                 ProfileButton(imageName: "gear", title: "Settings", action: {
                      showEditProfile = false
@@ -166,6 +188,18 @@ struct ProfileView: View {
                  fromProfile = true
                           }
 //                ProfileButton(imageName: "questionmark.circle", title: "Support")
+=======
+                ProfileButton(imageName: "message", title: "Chat")
+                ProfileButton(imageName: "gear", title: "Settings", action: {
+                    showSetting = true
+                    showProfile = false
+                })
+             ProfileButton(imageName: "person", title: "Sign In/Out", action: {
+                 showLogin = true
+                 showProfile = false
+             })
+                ProfileButton(imageName: "questionmark.circle", title: "Support")
+>>>>>>> refs/remotes/origin/master
 //            }
 
             Spacer()
@@ -219,8 +253,12 @@ struct SettingsView: View {
                 Text("Back to Profile")
                     .font(.headline)
                     .foregroundColor(.white)
+<<<<<<< HEAD
                     .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
                     .cornerRadius(10)
+=======
+                    .padding()
+>>>>>>> refs/remotes/origin/master
                     .background(Color.blue)
                     .cornerRadius(10)
             })
@@ -300,9 +338,13 @@ struct EditProfileView: View {
                 Text("Save Changes")
                     .font(.headline)
                     .foregroundColor(.white)
+<<<<<<< HEAD
                     .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
                                         .cornerRadius(10)
 //                .background(Color.blue)
+=======
+                .background(Color.blue)
+>>>>>>> refs/remotes/origin/master
 
                 })
 
@@ -314,11 +356,17 @@ struct EditProfileView: View {
 
 
 struct loginView: View {
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> refs/remotes/origin/master
     @Binding var showProfile: Bool
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
     @Binding var showHome: Bool
+<<<<<<< HEAD
     @Binding var showSupport: Bool
     @Binding var loggedIn: Bool
     @Binding var fromProfile: Bool
@@ -326,6 +374,18 @@ struct loginView: View {
     @State var email  = ""
     @State var password = ""
     
+    
+    
+    
+=======
+
+    @State var email  = ""
+    @State var password = ""
+
+    @State var loggedIn = false
+
+
+>>>>>>> refs/remotes/origin/master
     func login() {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
@@ -337,6 +397,7 @@ struct loginView: View {
             }
         }
     }
+<<<<<<< HEAD
     
     var body: some View {
         
@@ -369,6 +430,41 @@ struct loginView: View {
         }
         
     }
+=======
+
+    var body: some View {
+
+        if (loggedIn == false) {
+            Text("Log In To Your Account")
+            TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
+                TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
+
+                Button(action: { login() }){
+                         Text("Sign in")
+                }.buttonStyle(. bordered).tint(.mint).padding(50)
+        } else {
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
+        }
+
+        Button(action: {
+            showLogin = false
+            showProfile = true
+            
+        }, label: {
+            Text("Back to profile page")
+                .font(.headline)
+
+
+
+
+            })
+
+
+
+
+        }
+
+>>>>>>> refs/remotes/origin/master
 }
 
 
@@ -411,7 +507,10 @@ struct Post: Identifiable {
 class PostsViewModel: ObservableObject {
     @Published var posts: [Post] = []
     
-
+<<<<<<< HEAD
+    
+=======
+>>>>>>> refs/remotes/origin/master
     func addPost(text: String) {
         let post = Post(text: text)
         posts.append(post)
@@ -476,6 +575,7 @@ struct userPostView: View {
         .environmentObject(viewModel)
     }
 }
+<<<<<<< HEAD
 
 struct ShoppingPostsView: View {
     var body: some View {
@@ -621,3 +721,5 @@ struct FrequentlyAskedQuestionsView: View {
             .padding()
         }
     }
+=======
+>>>>>>> refs/remotes/origin/master
