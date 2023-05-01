@@ -2,29 +2,88 @@ import SwiftUI
 import Firebase
 
 struct ContentView: View {
+    
     @State private var showProfile = false
     @State private var showEditProfile = false
     @State private var showSetting = false
     @State private var showLogin = false
     @State private var showHome = true
     @State private var showSupport = false
+    @State private var loggedIn = false
+    @State private var fromProfile = false
+    
+    
 //    init() {
 //        FirebaseApp.configure()
 //    }
     var body: some View {
         if showProfile {
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport)
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
         } else if showEditProfile {
             EditProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showSetting{
             SettingsView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         } else if showLogin {
-            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport)
+            loginView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport, loggedIn : $loggedIn, fromProfile: $fromProfile)
+            if (loggedIn) {
+                MainView()
+            }
         } else if showHome {
             HomePageView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome)
         }
         else if showSupport {
-            SupportView(showProfile: $showProfile, showSupport: $showSupport)
+            SupportView(showProfile: $showProfile, showSupport: $showSupport, fromProfile: $fromProfile)
+        }
+        
+    }
+}
+
+struct MainView: View {
+    @State private var selectedTab = 0
+    @State private var showProfile = false
+    @State private var showEditProfile = false
+    @State private var showSetting = false
+    @State private var showLogin = false
+    @State private var showHome = false
+    @State private var showSupport = false
+    @State private var fromProfile = false
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            
+            HomePostView()
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+                .tag(0)
+            
+            CreatePostView()
+                .tabItem {
+                Image(systemName: "plus.square.fill")
+                Text("Create Post")
+                }
+                .tag(1)
+            
+            ShoppingPostsView()
+                .tabItem {
+                    Image(systemName: "cart.fill")
+                    Text("Shopping")
+                }
+                .tag(2)
+            
+            SupportView(showProfile: $showProfile, showSupport: $showSupport, fromProfile: $fromProfile)
+                .tabItem {
+                    Image(systemName: "questionmark.circle.fill")
+                    Text("Support")
+                }
+                .tag(3)
+            
+            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile, showSetting: $showSetting, showLogin: $showLogin, showHome: $showHome, showSupport: $showSupport, fromProfile: $fromProfile)
+                .tabItem {
+                    Image(systemName: "person.crop.circle.fill")
+                    Text("Profile")
+                }
+                .tag(4)
         }
     }
 }
@@ -36,6 +95,7 @@ struct ProfileView: View {
     @Binding var showLogin: Bool
     @Binding var showHome: Bool
     @Binding var showSupport: Bool
+    @Binding var fromProfile: Bool
 
     var body: some View {
 
@@ -95,6 +155,7 @@ struct ProfileView: View {
                  showHome = false
                  showSupport = false
                  showProfile = false
+                 fromProfile = true
              })
              ProfileButton(imageName: "questionmark.circle", title: "Support") {
                  showSupport = true
@@ -103,6 +164,7 @@ struct ProfileView: View {
                  showLogin = false
                  showHome = false
                  showProfile = false
+                 fromProfile = true
                           }
 //                ProfileButton(imageName: "questionmark.circle", title: "Support")
 //            }
@@ -253,20 +315,22 @@ struct EditProfileView: View {
 
 
 struct loginView: View {
-
+    
     @Binding var showProfile: Bool
     @Binding var showEditProfile: Bool
     @Binding var showSetting: Bool
     @Binding var showLogin: Bool
     @Binding var showHome: Bool
     @Binding var showSupport: Bool
+    @Binding var loggedIn: Bool
+    @Binding var fromProfile: Bool
     
     @State var email  = ""
     @State var password = ""
-
-    @State var loggedIn = false
-
-
+    
+    
+    
+    
     func login() {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
@@ -278,39 +342,38 @@ struct loginView: View {
             }
         }
     }
-
+    
     var body: some View {
-
+        
         if (loggedIn == false) {
             Text("Log In To Your Account")
             TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
-                TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
-
-                Button(action: { login() }){
-                         Text("Sign in")
-                }.buttonStyle(. bordered).tint(.mint).padding(50)
-        } else {
-            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport)
-        }
-
-        Button(action: {
-            showLogin = false
-            showProfile = true
+            TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
             
-        }, label: {
-            Text("Back to profile page")
-                .font(.headline)
-
-
-
-
-            })
-
-
-
-
+            Button(action: { login() }){
+                Text("Sign in")
+            }.buttonStyle(. bordered).tint(.mint).padding(50)
+        } else {
+            
+            //            ProfileView(showProfile: $showProfile, showEditProfile: $showEditProfile,showSetting: $showSetting, showLogin: $showLogin, showHome : $showHome, showSupport: $showSupport)
         }
-
+        
+        if (fromProfile) {
+            
+            Button(action: {
+                showLogin = false
+                showProfile = true
+                fromProfile = false
+                
+            }, label: {
+                Text("Back to profile page")
+                    .font(.headline)
+                
+            })
+            
+        }
+        
+    }
 }
 
 
@@ -352,6 +415,7 @@ struct Post: Identifiable {
 
 class PostsViewModel: ObservableObject {
     @Published var posts: [Post] = []
+    
     
     func addPost(text: String) {
         let post = Post(text: text)
@@ -418,10 +482,26 @@ struct userPostView: View {
     }
 }
 
+struct ShoppingPostsView: View {
+    var body: some View {
+        VStack {
+            Text("Shopping searh bar and buttons")
+        }
+    }
+}
+
+struct HomePostView: View {
+    var body: some View {
+        HomePosts()
+    }
+}
+
+
 struct SupportView: View {
     @Binding var showProfile: Bool
     @Binding var showSupport: Bool
     @State private var showFAQ = false
+    @Binding var fromProfile: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -471,18 +551,20 @@ struct SupportView: View {
                     .font(.system(size: 12))
             }
             Spacer(minLength: 10)
-
-
-            Button(action: {
-                showProfile = true
-                showSupport = false
-            }, label: {
-                Text("Back to Profile")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
-                    .cornerRadius(10)
-            })
+            
+            if (fromProfile) {
+                Button(action: {
+                    showProfile = true
+                    showSupport = false
+                    fromProfile = false
+                }, label: {
+                    Text("Back to Profile")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))                    .background(Color.blue)
+                        .cornerRadius(10)
+                })
+            }
         }
         .padding()
         .sheet(isPresented: $showFAQ) {

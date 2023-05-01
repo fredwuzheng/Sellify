@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		329BAC0129FF79EF001C386D /* HomePosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329BAC0029FF79EF001C386D /* HomePosts.swift */; };
 		7A4BD10029F3C14400281772 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD0FF29F3C14400281772 /* FirebaseAnalytics */; };
 		7A4BD10229F3C14400281772 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD10129F3C14400281772 /* FirebaseAnalyticsOnDeviceConversion */; };
 		7A4BD10429F3C14400281772 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4BD10329F3C14400281772 /* FirebaseAnalyticsSwift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		329BAC0029FF79EF001C386D /* HomePosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePosts.swift; sourceTree = "<group>"; };
 		7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B6F481FD29F245A20088B229 /* Sellify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sellify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F4820029F245A20088B229 /* SellifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellifyApp.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			children = (
 				B6F4820029F245A20088B229 /* SellifyApp.swift */,
 				B6F4820229F245A20088B229 /* ContentView.swift */,
+				329BAC0029FF79EF001C386D /* HomePosts.swift */,
 				B6F4820429F245A40088B229 /* Assets.xcassets */,
 				7A6CD6E829F3DB6B00D75D25 /* GoogleService-Info.plist */,
 				B6F4820629F245A40088B229 /* Preview Content */,
@@ -352,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6F4820329F245A20088B229 /* ContentView.swift in Sources */,
+				329BAC0129FF79EF001C386D /* HomePosts.swift in Sources */,
 				B6F4820129F245A20088B229 /* SellifyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
