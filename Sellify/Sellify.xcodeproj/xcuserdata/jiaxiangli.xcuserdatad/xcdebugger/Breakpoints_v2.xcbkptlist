@@ -14,9 +14,9 @@
             filePath = "Sellify/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "ProfileView"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "ContentView"
             landmarkType = "14">
             <Locations>
                <Location

@@ -1,6 +1,29 @@
 import SwiftUI
 import Firebase
 
+
+//var globalNewPost = [
+//   Posting(
+//       id: UUID(), description: "Bag", category: "Fashion", image: "bag", contacts: "123-456-7890", cost: 50),
+//   Posting(
+//       id: UUID(), description: "Das Leyboard MacTigr", category: "Electronics", image: "keyboard", contacts: "734-574-1245", cost: 219),
+//   Posting(
+//       id: UUID(), description: "Kids toy (never used!)", category: "Kids", image: "kidstoy", contacts: "123-461-7420", cost: 30),
+//   Posting(
+//       id: UUID(), description: "Office Chair", category: "Furniture", image: "chair", contacts: "321-456-4435", cost: 102),
+//   Posting(
+//       id: UUID(), description: "Cooking pot", category: "Kitchen", image: "pot", contacts: "133-479-0042", cost: 25),
+//   Posting(
+//       id: UUID(), description: "Color pencils", category: "Arts", image: "pencilsets", contacts: "754-456-1324", cost: 10),
+//   Posting(
+//       id: UUID(), description: "Moon Lamp Moon Night Light", category: "Home Decor", image: "mood bed light", contacts: "188-093-1296", cost: 42),
+//   Posting(
+//       id: UUID(), description: "2 leg pet dog clothes", category: "Pets", image: "dogclothes", contacts: "143-486-7891", cost: 20),
+//   Posting(
+//       id: UUID(), description: "8X10 black rug", category: "Home Decor", image: "carpet", contacts: "103-457-7832", cost: 50),
+//
+//]
+
 struct Content: View {
     @State private var currentView: ActiveView = .home
     @State private var loggedIn = false
@@ -102,7 +125,7 @@ struct MainView: View {
                 case 0:
                     HomePostView()
                 case 1:
-                    CreatePostView()
+                    CreatePostView(currentView: $currentView)
                 case 2:
                     ShoppingPostsView()
                 case 3:
@@ -360,7 +383,7 @@ struct SettingsView: View {
 //                showProfile = true
                 currentView = .main
             }, label: {
-                Text("Back to Profile")
+                Text("Back to home page")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5))                    .background(Color.blue)
@@ -568,81 +591,6 @@ struct HomePageView: View {
 }
 
 
-// Post
-
-struct Post: Identifiable {
-    var id = UUID()
-    var text: String
-}
-
-class PostsViewModel: ObservableObject {
-    @Published var posts: [Post] = []
-    
-
-    func addPost(text: String) {
-        let post = Post(text: text)
-        posts.append(post)
-    }
-}
-
-struct CreatePostView: View {
-    @State private var text: String = ""
-    @EnvironmentObject var viewModel: PostsViewModel
-    
-    var body: some View {
-        VStack {
-            TextField("Enter your post", text: $text)
-                .padding()
-            Button(action: {
-                // Post the text
-                self.post()
-            }, label: {
-                Text("Post")
-            })
-        }
-    }
-    
-    private func post() {
-        // Add the post to the view model
-         viewModel.addPost(text: text)
-        // Reset the view
-        text = ""
-    }
-}
-
-struct PostsView: View {
-    @EnvironmentObject var viewModel: PostsViewModel
-    
-    var body: some View {
-        NavigationView {
-            List(viewModel.posts) { post in
-                VStack(alignment: .leading) {
-                    Text(post.text)
-                        .padding()
-                }
-            }
-            .navigationTitle("Posts")
-        }
-    }
-}
-
-struct userPostView: View {
-    @StateObject private var viewModel = PostsViewModel()
-    
-    var body: some View {
-        TabView {
-            CreatePostView()
-                .tabItem {
-                    Label("Create Post", systemImage: "pencil.circle.fill")
-                }
-            PostsView()
-                .tabItem {
-                    Label("Posts", systemImage: "list.bullet")
-                }
-        }
-        .environmentObject(viewModel)
-    }
-}
 
 struct ShoppingPostsView: View {
     var body: some View {
@@ -786,3 +734,156 @@ struct FrequentlyAskedQuestionsView: View {
             .padding()
         }
     }
+
+// post
+
+struct CreatePostView: View {
+    @State private var newPosting = Posting(id: UUID(), description: "", category:"", image:"", contacts: "", cost: 0.0)
+    @Binding var currentView: ActiveView
+    @State var showHome = false
+    @State var touch = false
+    var body: some View {
+       
+        NavigationView {
+            Form {
+                Section(header: Text("Item Details")) {
+                    TextField("Description", text: $newPosting.description)
+                    TextField("Category", text: $newPosting.category)
+                    TextField("Image", text: $newPosting.image)
+                    TextField("Contact", text: $newPosting.contacts)
+                    TextField("Cost", value: $newPosting.cost, formatter: NumberFormatter())
+                }
+
+                Section {
+                    Button(action: {
+                        
+                         
+//                        globalNewPost.append(newPosting)
+                    } , label: {
+                        Text("Post")
+                    })
+                    
+                        
+                        NavigationLink(destination: newPostView(thePost: newPosting) , isActive: $showHome) {
+                                      
+                                   }
+                    
+                   
+                }
+            }
+            .navigationBarTitle(Text("New Post"))
+            
+        }
+    }
+
+}
+
+
+
+struct newPostView: View {
+    var thePost : Posting
+    var body: some View {
+        
+        let newPost = [
+            Posting(
+                id: UUID(), description: "Bag", category: "Fashion", image: "bag", contacts: "123-456-7890", cost: 50),
+            Posting(
+                id: UUID(), description: "Das Leyboard MacTigr", category: "Electronics", image: "keyboard", contacts: "734-574-1245", cost: 219),
+            Posting(
+                id: UUID(), description: "Kids toy (never used!)", category: "Kids", image: "kidstoy", contacts: "123-461-7420", cost: 30),
+            Posting(
+                id: UUID(), description: "Office Chair", category: "Furniture", image: "chair", contacts: "321-456-4435", cost: 102),
+            Posting(
+                id: UUID(), description: "Cooking pot", category: "Kitchen", image: "pot", contacts: "133-479-0042", cost: 25),
+            Posting(
+                id: UUID(), description: "Color pencils", category: "Arts", image: "pencilsets", contacts: "754-456-1324", cost: 10),
+            Posting(
+                id: UUID(), description: "Moon Lamp Moon Night Light", category: "Home Decor", image: "mood bed light", contacts: "188-093-1296", cost: 42),
+            Posting(
+                id: UUID(), description: "2 leg pet dog clothes", category: "Pets", image: "dogclothes", contacts: "143-486-7891", cost: 20),
+            Posting(
+                id: UUID(), description: "8X10 black rug", category: "Home Decor", image: "carpet", contacts: "103-457-7832", cost: 50),
+            thePost
+        ]
+        
+        
+        
+        
+        
+        
+        let columns = [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            
+        ]
+        
+        
+        //let my_name = Person(name: "", grade: "", img: "", age: , hometown: "")
+        
+        
+        
+        
+        ScrollView {
+            //PersonView(person: my_name)
+            Spacer(minLength: 40)
+            
+            Text("Recent Posts").fontWeight(.heavy)
+            Spacer(minLength: 10)
+            
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(newPost) { item in
+                    
+                    PostingView(newPost: item)
+                }
+            }
+            .padding(.horizontal)
+        }
+        
+    }
+}
+
+
+
+
+//
+//struct newHomePosts: View {
+//    var newPost: [Posting]
+//    var body: some View {
+//
+//        let list = newPost
+//
+//
+//
+//
+//
+//
+//        let columns = [
+//            GridItem(.flexible()),
+//            GridItem(.flexible()),
+//
+//        ]
+//
+//
+//        //let my_name = Person(name: "", grade: "", img: "", age: , hometown: "")
+//
+//
+//
+//
+//        ScrollView {
+//            //PersonView(person: my_name)
+//            Spacer(minLength: 40)
+//
+//            Text("Recent Posts").fontWeight(.heavy)
+//            Spacer(minLength: 10)
+//
+//            LazyVGrid(columns: columns, spacing: 20) {
+//                ForEach(newPost) { item in
+//
+//                    PostingView(newPost: item)
+//                }
+//            }
+//            .padding(.horizontal)
+//        }
+//
+//    }
+//}

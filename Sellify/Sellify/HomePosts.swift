@@ -103,6 +103,8 @@ struct HomePosts: View {
         
         
         
+        
+        
         let columns = [
             GridItem(.flexible()),
             GridItem(.flexible()),
@@ -333,5 +335,9 @@ struct Shop: View {
             }
         }
     }
+
+
+
+
 
 
