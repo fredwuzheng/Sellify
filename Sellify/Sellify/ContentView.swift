@@ -43,7 +43,7 @@ struct Content: View {
 }
 
 enum ActiveView {
-    case home, profile, editProfile, editSetting, login, support, main
+    case home, profile, editProfile, editSetting, login, support, main, createAcc
 }
 
 struct ContentView: View {
@@ -76,6 +76,8 @@ struct ContentView: View {
                 loginView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
             case .support:
                 SupportView(currentView: $currentView)
+            case .createAcc:
+                CreateAccView(currentView: $currentView)
             case .main:
                 MainView(currentView: $currentView, loggedIn: $loggedIn, fromProfile: $fromProfile)
             }
@@ -515,8 +517,8 @@ struct loginView: View {
         
         if (loggedIn == false) {
             Text("Log In To Your Account")
-            TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
-            TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center)
+            TextField("Email", text: $email).textFieldStyle(.roundedBorder).multilineTextAlignment(.center).autocapitalization(.none)
+            TextField("Password", text: $password).textFieldStyle(.roundedBorder).multilineTextAlignment(.center).autocapitalization(.none)
             
             Button(action: { login() }){
                 Text("Sign in")
@@ -542,7 +544,87 @@ struct loginView: View {
             
         }
         
+        Button(action: {
+            currentView = .createAcc
+            
+        }, label: {
+            Text("Create an account")
+                .font(.headline)
+            })
+        
     }
+}
+
+struct CreateAccView: View {
+    @Binding var currentView: ActiveView
+    @State private var showErrorAlert = false
+    @State private var errorAlertMessage = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var showSuccessAlert = false
+    @State private var successAlertMessage = ""
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Create Account")
+                .font(.largeTitle)
+                .bold()
+
+            TextField("Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .autocapitalization(.none)
+
+            Button(action: createAccount, label: {
+                Text("Create Account")
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            })
+        }
+        .padding()
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Error"), message: Text(errorAlertMessage), dismissButton: .default(Text("OK")))
+            
+        }
+        .alert(isPresented: $showSuccessAlert) {
+                    Alert(title: Text("Success"), message: Text(successAlertMessage), dismissButton: .default(Text("OK")))
+                }
+        Button(action: {
+            currentView = .login
+            
+        }, label: {
+            Text("Back to login page")
+                .font(.headline)
+            })
+    }
+    
+    func createAccount() {
+        if password.isEmpty {
+            errorAlertMessage = "Password cannot be empty"
+            showErrorAlert = true
+            return
+        }
+
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                errorAlertMessage = error.localizedDescription
+                showErrorAlert = true
+                return
+            }  else {
+                successAlertMessage = "Account created successfully"
+                showSuccessAlert = true
+            }
+        }
+    }
+
+    
 }
 
 extension Color {
